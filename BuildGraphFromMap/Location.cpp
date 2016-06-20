@@ -6,7 +6,7 @@
  */
 
 #include "Location.h"
-
+#include <math.h>
 
 Location::Location(unsigned int row, unsigned int col){
 	this->row = row;
@@ -29,3 +29,6 @@ Location::~Location() {
 	// TODO Auto-generated destructor stub
 }
 
+double Location::calc_distance(Location* otherlocation){
+		return sqrt(pow(this->get_row() - otherlocation->get_row(), 2) + pow(this->get_col() - otherlocation->get_col(), 2));
+}

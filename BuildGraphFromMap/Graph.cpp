@@ -6,6 +6,7 @@
  */
 
 #include "Graph.h"
+#include <math.h>
 
 Graph::Graph() {
 	// TODO Auto-generated constructor stub
@@ -86,5 +87,19 @@ void Graph::Calculate_h_score(Location* endLocation){
 }
 
 void Graph::set_Node_parent(Location* location, Location* parentlocation){
-	this->nodes[location->get_row()][location->get_col()]->parentLocation = parentlocation;
+	this->nodes[location->get_row()][location->get_col()]->set_parentLocation(parentlocation);
+}
+
+double Graph::get_Node_g_score(Location* location){
+	return this->nodes[location->get_row()][location->get_col()]->get_g_score();
+}
+double Graph::get_Node_h_score(Location* location){
+		return this->nodes[location->get_row()][location->get_col()]->get_h_score();
+}
+double Graph::get_Node_f_score(Location* location){
+	return this->nodes[location->get_row()][location->get_col()]->get_f_score();
+}
+
+Location* Graph::get_Node_Parent(Location* location){
+	return this->nodes[location->get_row()][location->get_col()]->parentLocation;
 }

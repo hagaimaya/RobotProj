@@ -6,6 +6,7 @@
  */
 
 #include "Node.h"
+#include <iostream>
 
 Node::Node() {
 
@@ -23,6 +24,7 @@ Node::Node(int row,int col,bool data){
 	this->f_score=0;
 	this->h_score=0;
 	this->wasVisited = false;
+	this->parentLocation = NULL;
 }
 
 bool Node::CompareNodes(Node* node)
@@ -43,7 +45,10 @@ void Node::set_g_score(double g_score){
 double Node::get_g_score(){
 	return this->g_score;
 }
+void Node::set_parentLocation(Location* location){
+	this->parentLocation = new Location(location->get_row(),location->get_col());
 
+}
 /**
  * calculate the f score
  */

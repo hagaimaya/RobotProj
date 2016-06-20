@@ -18,6 +18,7 @@ public:
 	unsigned int get_col();
 	void set_row(unsigned int row);
 	void set_col(unsigned int col);
+	double calc_distance(Location* otherlocation);
 	virtual ~Location();
 };
 

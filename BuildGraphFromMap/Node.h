@@ -35,7 +35,7 @@ private:
 
 public:
 
-	Location parentLocation;
+	Location* parentLocation;
 	Node();
 	Node(int row,int col,bool data);
 	bool CompareNodes(Node* node);
@@ -44,6 +44,7 @@ public:
 	void set_g_score(double g_score);
 	void set_f_score();
 	void set_h_score(double h_score);
+	void set_parentLocation(Location* location);
 	double get_g_score();
 	double get_f_score();
 	double get_h_score();

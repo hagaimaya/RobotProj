@@ -7,6 +7,7 @@
 
 #include "Astar.h"
 #include <math.h>
+#include <iostream>
 
 Astar::Astar() {
 	// TODO Auto-generated constructor stub
@@ -17,12 +18,12 @@ Astar::~Astar() {
 	// TODO Auto-generated destructor stub
 }
 
-unsigned int  Get_Node_With_Min_f_Score(Graph &graph,vector<Location *> openset, Location* endLocation){
+unsigned int  Astar::Get_Node_With_Min_f_Score(Graph &graph,vector<Location *> openset, Location* endLocation){
 	Location* min_location = openset[0];
 	unsigned int min_index = 0;
 	vector<vector <Node *> > nodes = graph.getNodes();
 	double min_f_score = nodes[min_location->get_row()][min_location->get_col()]->get_f_score();
-	for(int locationIndex = 0;locationIndex < openset.size(); ++locationIndex){
+	for(unsigned int locationIndex = 0;locationIndex < openset.size(); ++locationIndex){
 		if (min_f_score > nodes[openset[locationIndex]->get_row()][openset[locationIndex]->get_col()]->get_f_score()){
 			min_location = openset[locationIndex];
 			min_f_score = nodes[min_location->get_row()][min_location->get_col()]->get_f_score();
@@ -61,7 +62,7 @@ vector<Location *> Get_neigbors(Location* location){
 	// right
 	PossibleNeighbors.push_back(new Location(0,-1));
 
-	for (int index = 0;index < PossibleNeighbors.size(); ++index){
+	for (unsigned int index = 0;index < PossibleNeighbors.size(); ++index){
 		neighbors.push_back(new Location(location->get_row() + PossibleNeighbors[index]->get_row(),
 				                         location->get_col() + PossibleNeighbors[index]->get_col()));
 	}
@@ -69,9 +70,38 @@ vector<Location *> Get_neigbors(Location* location){
 	return neighbors;
 
 }
+
+bool is_location_in_vector(vector<Location *> locactionvector, Location* location){
+	bool isLocationFound = false;
+
+	for (unsigned int locationindex = 0; locationindex < locactionvector.size() && !isLocationFound; ++locationindex){
+		if (location->get_col() == locactionvector[locationindex]->get_col() &&  location->get_row() == locactionvector[locationindex]->get_row()){
+			isLocationFound = true;
+		}
+
+	}
+
+	return isLocationFound;
+}
+
+vector<Location *> reconstruct_path(Graph& graph, Location* endlocation){
+	Location* current = endlocation;
+	vector<Location *> temppath;
+	vector<Location *> path;
+	while (graph.get_Node_Parent(current) != NULL){
+			temppath.push_back(current);
+			current = graph.get_Node_Parent(current);
+	}
+
+	for (int index = temppath.size() - 1; index >= 0; --index){
+		path.push_back(temppath[index]);
+	}
+
+	return path;
+}
 // y - row
 // x - col
-vector<Node *> Astar::RunAStart(Graph& graph,Location* startLocation,Location* endLocation){
+vector<Location *> Astar::RunAStart(Graph& graph,Location* startLocation,Location* endLocation){
 	vector<Node *> pathToEndPoint;
 	graph.Calculate_h_score(endLocation);
 
@@ -85,33 +115,45 @@ vector<Node *> Astar::RunAStart(Graph& graph,Location* startLocation,Location* e
 	graph.set_Node__f_score(startLocation);
 
 	openset.push_back(startLocation);
+
 	while(!openset.empty()){
+
 		unsigned int min_location_index = Get_Node_With_Min_f_Score(graph, openset,endLocation);
 		Location* current = openset[min_location_index];
 		if(current->get_col() == endLocation->get_col() && current->get_row() == endLocation->get_row()){
-			// to do return the path
-			//return reconstruct_path(came_from, goal)
+			return reconstruct_path(graph, endLocation);
 		}
 		openset.erase(openset.begin() + min_location_index);
 		closedset.push_back(current);
 
-		for each neighbor in neighbor_nodes(current)
-			if neighbor in closedset
-					continue
-			tentative_g_score := g_score[current] + dist_between(current,neighbor)
-	 		if neighbor not in openset or tentative_g_score < g_score[neighbor] 			came_from[neighbor] := current
-				g_score[neighbor] := tentative_g_score
-				f_score[neighbor] := g_score[neighbor] + heuristic_cost_estimate(neighbor, goal)
-				if neighbor not in openset
-					add neighbor to openset
-			return failure
+		vector<Location *> neighbors = Get_neigbors(current);
+
+		for (unsigned int neighborindex = 0; neighborindex < neighbors.size(); ++neighborindex){
+			if (is_location_in_vector(closedset ,neighbors[neighborindex])){
+				continue;
+			}
+
+		    double tentative_g_score = graph.get_Node_g_score(current) + current->calc_distance(neighbors[neighborindex]);
+
+		    bool is_neighbor_in_openset = is_location_in_vector(openset, neighbors[neighborindex]);
+		    if (!is_neighbor_in_openset ||
+		    	tentative_g_score < graph.get_Node_g_score(neighbors[neighborindex])){
+		    	graph.set_Node_parent(neighbors[neighborindex], current);
+		    	graph.set_Node__g_score(neighbors[neighborindex], tentative_g_score);
+		    	graph.set_Node__f_score(neighbors[neighborindex]);
+
+		    	if(!is_neighbor_in_openset){
+		    		openset.push_back(neighbors[neighborindex]);
+		    	}
+		    }
+
+
+		}
+
 	}
-
-
-
 
 	return pathToEndPoint;
 }
-vector<Node *> Astar::RunAStart(Graph& graph,Node& startNode,Node& endNode){
+vector<Location *> Astar::RunAStart(Graph& graph,Node& startNode,Node& endNode){
 	return (this->RunAStart(graph, new Location(startNode.getRow(),startNode.getCol()),new Location(endNode.getRow(),endNode.getCol())));
 }
