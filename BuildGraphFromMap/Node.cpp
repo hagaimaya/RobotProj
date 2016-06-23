@@ -8,9 +8,7 @@
 #include "Node.h"
 #include <iostream>
 
-Node::Node() {
 
-}
 
 Node::~Node() {
 	// TODO Auto-generated destructor stub

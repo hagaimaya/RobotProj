@@ -22,7 +22,7 @@ public:
 	virtual ~Astar();
 
 	vector<Location *> RunAStart(Graph& graph,Location* startLocation,Location* endLocation);
-	vector<Location *> RunAStart(Graph& graph,Node& startNode,Node& endNode);
+
 };
 
 #endif /* ASTAR_H_ */

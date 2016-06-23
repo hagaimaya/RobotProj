@@ -10,7 +10,7 @@
 
 Graph::Graph() {
 	// TODO Auto-generated constructor stub
-
+	this->nodes = vector<vector<Node *> >();
 }
 
 Graph::~Graph() {
@@ -19,30 +19,30 @@ Graph::~Graph() {
 void Graph::buildGraphFromMap(Map& map)
 {
 
-	this->rows = map.getHeight();
-	this->cols = map.getWidth();
+	this->rows = map.getHeight()+2;
+	this->cols = map.getWidth()+2;
 
-	 int rows = map.getHeight();
-	 int columns = map.getWidth();
+	 int rows = this->rows;
+	 int columns = this->cols;
 	 vector<vector<bool> > mapArray = map.Getmap();
 
    nodes.resize(rows);
 
-   for(int i=1;i<rows-1;++i){
+   for(int i=0;i<rows;++i){
 	   nodes[i].resize(columns);
 	   nodes[i][0] = new Node(i,0,1);
-	   nodes[i][columns-1] = new Node(i,columns - 1,1);
+	   nodes[i][columns - 1] = new Node(i,columns - 1,1);
    }
 
    for(int j=0;j<columns;++j){
 	   nodes[0][j] = new Node(0,j,1);
-   	   nodes[rows - 1 ][j] = new Node(rows - 1 ,j,1);
+   	   nodes[rows-1][j] = new Node(rows ,j,1);
       }
 
-	for (int i=1;i<rows -1 ;++i){
+	for (int i=1;i<rows-1;++i){
 
-		for (int j=1;j < columns -1 ;++j){
-			this->nodes[i][j]= new Node(i,j,mapArray[i][j]);
+		for (int j=1;j < columns-1;++j){
+			this->nodes[i][j]= new Node(i,j,mapArray[i-1][j-1]);
 		}
 	}
 
@@ -79,7 +79,7 @@ void Graph::set_Node__f_score(Location* location){
 void Graph::Calculate_h_score(Location* endLocation){
 	for (int rowindex = 0;rowindex < rows; ++rowindex){
 		for (int colindex = 0;colindex < cols; ++colindex ){
-			if (!nodes[rowindex][colindex]){
+			if (!nodes[rowindex][colindex]->get_data()){
 				nodes[rowindex][colindex]->set_h_score(heuristic_cost_estimate(new Location(rowindex, colindex),endLocation));
 			}
 		}

@@ -13,7 +13,10 @@ Map::Map() {
 	// TODO Auto-generated constructor stub
 
 }
-
+Map::Map(double mapResolution, double robotSize){
+	this->mapResolution = mapResolution;
+	this->robotSize = robotSize;
+}
 void Map::loadMap(const char* mapFile) {
 
 	lodepng::decode(pixels, width, height, mapFile);
@@ -29,7 +32,7 @@ void Map::loadMap(const char* mapFile) {
 		}
 	}
 
-	printMap();
+	//printMap();
 }
 
 void Map::inflateObstacles() {
@@ -85,12 +88,36 @@ bool Map::checkIfCellIsOccupied(int i, int j) {
 }
 
 void Map::printMap() const {
-	for (int i = 0; i < height; i++) {
-		for (int j = 0; j < width; j++) {
-			cout << (map[i][j] ? "*" : " ");
+	for (unsigned int i = 0; i < height; i++) {
+			for (unsigned int j = 0; j < width; j++) {
+				cout << (map[i][j] ? "*" : " ");
+			}
+			cout << endl;
 		}
-		cout << endl;
-	}
+
+		vector<unsigned char> newPixels;
+		newPixels.resize(pixels.size());
+		for (unsigned int i = 0; i < height; i++) {
+			for (unsigned int j = 0; j < width; j++) {
+				int c = (i * width + j) * 4;
+				if (map[i][j] == 1){
+
+					newPixels[c] = 0;
+					newPixels[c + 1] = 0;
+					newPixels[c + 2] = 0;
+					newPixels[c + 3] = 255;
+				}
+				else {
+				  newPixels[c] = 255;
+				  newPixels[c+1] = 255;
+				  newPixels[c+2] = 255;
+				  newPixels[c+3] = 255;
+				}
+			}
+		}
+		vector<unsigned char> ImageBuffer;
+		lodepng::encode(ImageBuffer,newPixels,width,height);
+		lodepng::save_file(ImageBuffer, "mynewimage.png");
 }
 
 unsigned int Map::getHeight(){

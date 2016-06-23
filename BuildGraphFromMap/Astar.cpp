@@ -30,7 +30,7 @@ unsigned int  Astar::Get_Node_With_Min_f_Score(Graph &graph,vector<Location *> o
 			min_index = locationIndex;
 		}
 	}
-
+	//cout << "Min Location: " << openset[min_index]->get_row() << " , " << openset[min_index]->get_col() << " f_score: " << graph.getNodes()[openset[min_index]->get_row()][openset[min_index]->get_col()]->get_f_score()  << endl;
 	return min_index;
 }
 
@@ -101,8 +101,10 @@ vector<Location *> reconstruct_path(Graph& graph, Location* endlocation){
 }
 // y - row
 // x - col
-vector<Location *> Astar::RunAStart(Graph& graph,Location* startLocation,Location* endLocation){
-	vector<Node *> pathToEndPoint;
+vector<Location * > Astar::RunAStart(Graph& graph,Location* startLocation,Location* endLocation){
+
+
+	vector<Location *> pathToEndPoint;
 	graph.Calculate_h_score(endLocation);
 
 	// the nodes that need to check
@@ -152,8 +154,9 @@ vector<Location *> Astar::RunAStart(Graph& graph,Location* startLocation,Locatio
 
 	}
 
+	throw "failed to run a star";
+	Location* temp = new Location(-1,-1);
+	pathToEndPoint.push_back(temp);
 	return pathToEndPoint;
 }
-vector<Location *> Astar::RunAStart(Graph& graph,Node& startNode,Node& endNode){
-	return (this->RunAStart(graph, new Location(startNode.getRow(),startNode.getCol()),new Location(endNode.getRow(),endNode.getCol())));
-}
+

@@ -5,17 +5,17 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../Driver/Driver.cpp \
-../Driver/Main.cpp \
+../Driver/Main1.cpp \
 ../Driver/Robot.cpp 
 
 OBJS += \
 ./Driver/Driver.o \
-./Driver/Main.o \
+./Driver/Main1.o \
 ./Driver/Robot.o 
 
 CPP_DEPS += \
 ./Driver/Driver.d \
-./Driver/Main.d \
+./Driver/Main1.d \
 ./Driver/Robot.d 
 
 
