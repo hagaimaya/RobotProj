@@ -25,6 +25,10 @@ double Robot::getY() {
 	return pp->GetYPos();
 }
 
+double Robot::getYaw() {
+	return pp->GetYaw();
+}
+
 void Robot::setSpeed(double linearSpeed, double angularSpeed) {
 	pp->SetSpeed(linearSpeed, angularSpeed);
 }

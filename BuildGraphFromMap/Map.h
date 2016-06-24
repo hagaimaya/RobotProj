@@ -7,7 +7,7 @@
 
 #ifndef MAP_H_
 #define MAP_H_
-
+#include "Location.h"
 #include <vector>
 using namespace std;
 
@@ -21,7 +21,7 @@ private:
 	double robotSize;
 
 	bool checkIfCellIsOccupied(int i, int j);
-	void printMap() const;
+
 
 public:
 	Map();
@@ -31,7 +31,9 @@ public:
 	virtual ~Map();
 	unsigned int getHeight();
 	unsigned int getWidth();
+	void set_map_data(unsigned int row, unsigned int col,bool data);
 	vector<vector<bool> > Getmap();
+	void printMap() const;
 };
 
 #endif /* MAP_H_ */

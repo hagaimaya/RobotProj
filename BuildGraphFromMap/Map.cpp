@@ -133,4 +133,6 @@ vector<vector<bool> > Map::Getmap(){
 Map::~Map() {
 	// TODO Auto-generated destructor stub
 }
-
+void Map::set_map_data(unsigned int row, unsigned int col,bool data){
+	this->map[row][col]=data;
+}

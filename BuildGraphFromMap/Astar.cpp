@@ -103,7 +103,7 @@ vector<Location *> reconstruct_path(Graph& graph, Location* endlocation){
 // x - col
 vector<Location * > Astar::RunAStart(Graph& graph,Location* startLocation,Location* endLocation){
 
-
+	vector<vector<Node *> > nodes = graph.getNodes();
 	vector<Location *> pathToEndPoint;
 	graph.Calculate_h_score(endLocation);
 
@@ -136,19 +136,19 @@ vector<Location * > Astar::RunAStart(Graph& graph,Location* startLocation,Locati
 			}
 
 		    double tentative_g_score = graph.get_Node_g_score(current) + current->calc_distance(neighbors[neighborindex]);
-
+		    if(!nodes[neighbors[neighborindex]->get_row()][neighbors[neighborindex]->get_col()]->get_data()){
 		    bool is_neighbor_in_openset = is_location_in_vector(openset, neighbors[neighborindex]);
-		    if (!is_neighbor_in_openset ||
-		    	tentative_g_score < graph.get_Node_g_score(neighbors[neighborindex])){
-		    	graph.set_Node_parent(neighbors[neighborindex], current);
-		    	graph.set_Node__g_score(neighbors[neighborindex], tentative_g_score);
-		    	graph.set_Node__f_score(neighbors[neighborindex]);
+				if (!is_neighbor_in_openset ||
+					tentative_g_score < graph.get_Node_g_score(neighbors[neighborindex])){
+					graph.set_Node_parent(neighbors[neighborindex], current);
+					graph.set_Node__g_score(neighbors[neighborindex], tentative_g_score);
+					graph.set_Node__f_score(neighbors[neighborindex]);
 
-		    	if(!is_neighbor_in_openset){
-		    		openset.push_back(neighbors[neighborindex]);
-		    	}
+					if(!is_neighbor_in_openset){
+						openset.push_back(neighbors[neighborindex]);
+					}
+				}
 		    }
-
 
 		}
 
