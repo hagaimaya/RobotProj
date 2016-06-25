@@ -30,13 +30,13 @@ void Graph::buildGraphFromMap(Map& map)
 
    for(int i=0;i<rows;++i){
 	   nodes[i].resize(columns);
-	   nodes[i][0] = new Node(i,0,1);
-	   nodes[i][columns - 1] = new Node(i,columns - 1,1);
+	   nodes[i][0] = new Node(i,0,true);
+	   nodes[i][columns - 1] = new Node(i,columns - 1,true);
    }
 
    for(int j=0;j<columns;++j){
-	   nodes[0][j] = new Node(0,j,1);
-   	   nodes[rows-1][j] = new Node(rows ,j,1);
+	   nodes[0][j] = new Node(0,j,true);
+   	   nodes[rows-1][j] = new Node(rows ,j,true);
       }
 
 	for (int i=1;i<rows-1;++i){

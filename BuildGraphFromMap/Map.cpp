@@ -16,18 +16,20 @@ Map::Map() {
 Map::Map(double mapResolution, double robotSize){
 	this->mapResolution = mapResolution;
 	this->robotSize = robotSize;
+	this->width = 0;
+	this->height = 0;
 }
 void Map::loadMap(const char* mapFile) {
 
 	lodepng::decode(pixels, width, height, mapFile);
 	map.resize(height);
-	for (int i = 0; i < height; i++) {
+	for (unsigned int i = 0; i < height; i++) {
 		map[i].resize(width);
 	}
 
 
-	for (int i = 0; i < height; i++) {
-		for (int j = 0; j < width; j++) {
+	for (unsigned int i = 0; i < height; i++) {
+		for (unsigned int j = 0; j < width; j++) {
 			map[i][j] = checkIfCellIsOccupied(i, j);
 		}
 	}
@@ -39,15 +41,13 @@ void Map::inflateObstacles() {
 	int robotSizeInPixels = robotSize / mapResolution;
 	int inflationRadius = 0.3 * robotSizeInPixels;
 		vector<vector<bool> > InflatedMap (map);
-		int startobstacle=0;
-		int endobstacle=0;
 		int maxUp;
 		int maxdown;
 		int maxleft;
 		int maxright;
-		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < width; j++) {
-				if(map[i][j] == 1){
+		for ( int i = 0; i < height; i++) {
+			for ( int j = 0; j < width; j++) {
+				if(map[i][j] == true){
 					for (int k=1;k < inflationRadius;k++){
 							if(i - k >= 0){
 								maxUp = i - k;
@@ -66,7 +66,7 @@ void Map::inflateObstacles() {
 
 					for (;maxUp < maxdown; maxUp++){
 						for(int k=maxleft;k < maxright; k++){
-							InflatedMap[maxUp][k] = 1;
+							InflatedMap[maxUp][k] = true;
 						}
 					}
 				}
