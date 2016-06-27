@@ -10,6 +10,7 @@
 Robot::Robot(string ip, int port) {
 	pc = new PlayerClient(ip, port);
 	pp = new Position2dProxy(pc);
+
 	lp = new LaserProxy(pc);
 }
 
@@ -36,6 +37,8 @@ void Robot::setSpeed(double linearSpeed, double angularSpeed) {
 void Robot::setOdometry(double x, double y, double yaw) {
 	pp->SetOdometry(x, y, yaw);
 }
+
+
 
 Robot::~Robot() {
 	delete lp;

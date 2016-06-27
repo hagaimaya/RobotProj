@@ -46,7 +46,6 @@ void Graph::buildGraphFromMap(Map& map)
 		}
 	}
 
-
 }
 vector<vector<Node *> > Graph::getNodes(){
 	return this->nodes;

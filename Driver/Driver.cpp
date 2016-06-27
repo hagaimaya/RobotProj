@@ -39,14 +39,14 @@ void Driver::moveToNextWaypoint(double x, double y) {
 	double result = atan2 (dY,dX);
 
 
-
+	if (dY < 0)
 	cout << "result : " << result << endl;
 	cout << "current : " << currYaw << endl;
 
-	double angle = 0.11;
-	double startedYaw = currYaw;
+	double angle = 0.31;
+
 	//result -=  20 * 3.14 / 180;
-	while (abs(result  - currYaw ) > 0.05){
+	while (abs(result  - currYaw )> 0.05){
 
 		robot->setSpeed(0,angle);
 		robot->read();
@@ -58,9 +58,17 @@ void Driver::moveToNextWaypoint(double x, double y) {
 
 	robot->setSpeed(0,0);
 
+	double startedX = currX;
+	double startedY = currY;
+	cout << "(" << x << "," << y << ")" << endl;
+	while ( distance(currX, currY, startedX, startedY) <= 1.222){
+		robot->setSpeed(linearSpeed * slowSpeedRatio * 4, 0);
 
-
-	while (distance(currX, currY, x, y)  > slowSpeedRange) {
+				robot->read();
+				currX = robot->getX();
+				currY = robot->getY();
+	}
+	/**while (distance(currX, currY, x, y) *0.001  > slowSpeedRange) {
 		robot->setSpeed(linearSpeed, 0);
 
 		robot->read();
@@ -71,7 +79,7 @@ void Driver::moveToNextWaypoint(double x, double y) {
 
 	}
 
-	while (distance(currX, currY, x, y)  > tolerance) {
+	while (distance(currX, currY, x, y) *0.001  > tolerance) {
 		robot->setSpeed(linearSpeed * slowSpeedRatio, 0);
 
 		robot->read();
@@ -83,7 +91,7 @@ void Driver::moveToNextWaypoint(double x, double y) {
 		currY = robot->getY();
 
 
-	}
+	}**/
 
 	robot->setSpeed(0, 0);
 }

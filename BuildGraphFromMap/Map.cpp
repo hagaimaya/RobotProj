@@ -74,6 +74,7 @@ void Map::inflateObstacles() {
 		}
 
 		map = InflatedMap;
+		printMap();
 }
 
 bool Map::checkIfCellIsOccupied(int i, int j) {
