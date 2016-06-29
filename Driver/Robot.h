@@ -26,6 +26,7 @@ public:
 	void setOdometry(double x, double y, double yaw);
 	void setSpeed(double linearSpeed, double angularSpeed);
 	double getYaw();
+	LaserProxy* getLaserProxy();
 	virtual ~Robot();
 };
 

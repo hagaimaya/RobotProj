@@ -8,21 +8,21 @@
 #include "Location.h"
 #include <math.h>
 
-Location::Location(unsigned int row, unsigned int col){
+Location::Location(double row, double col){
 	this->row = row;
 	this->col = col;
 }
-unsigned int Location::get_row(){
+double Location::get_row(){
 	return this->row;
 }
-unsigned int Location::get_col(){
+double Location::get_col(){
 	return this->col;
 }
 
-void Location::set_row(unsigned int row){
+void Location::set_row(double row){
 	this->row = row;
 }
-void Location::set_col(unsigned int col){
+void Location::set_col(double col){
 	this->col = col;
 }
 Location::~Location() {

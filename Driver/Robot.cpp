@@ -38,7 +38,9 @@ void Robot::setOdometry(double x, double y, double yaw) {
 	pp->SetOdometry(x, y, yaw);
 }
 
-
+LaserProxy* Robot::getLaserProxy(){
+	return this->lp;
+}
 
 Robot::~Robot() {
 	delete lp;

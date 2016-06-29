@@ -10,14 +10,14 @@
 
 class Location {
 private:
-	unsigned int row;
-	unsigned int col;
+	double row;
+	double col;
 public:
-	Location(unsigned int row, unsigned int col);
-	unsigned int get_row();
-	unsigned int get_col();
-	void set_row(unsigned int row);
-	void set_col(unsigned int col);
+	Location(double row, double col);
+	double get_row();
+	double get_col();
+	void set_row(double row);
+	void set_col(double col);
 	double calc_distance(Location* otherlocation);
 	virtual ~Location();
 };

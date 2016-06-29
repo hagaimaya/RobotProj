@@ -43,10 +43,24 @@ void Driver::moveToNextWaypoint(double x, double y) {
 	cout << "result : " << result << endl;
 	cout << "current : " << currYaw << endl;
 
-	double angle = 0.31;
+	double angle = 0.11;
 
 	//result -=  20 * 3.14 / 180;
-	while (abs(result  - currYaw )> 0.05){
+	while (abs(result  - currYaw )> 0.05 && distance(currX, currY,x ,y) > 0.05){
+		if (((result < 0 &&  currYaw < 0 && result > currYaw) ||
+			(result < -PI /2 && currYaw > PI / 2) ||
+			(result > 0 && currYaw > 0 && result > currYaw) )&&
+			angle < 0 ){
+				angle *= -1;
+		}
+		else if (!((result < 0 &&  currYaw < 0 && result > currYaw) ||
+			(result < -PI /2 && currYaw > PI / 2) ||
+			(result > 0 && currYaw > 0 && result > currYaw) ) &&
+			angle > 0){
+				angle *= -1;
+		}
+
+
 
 		robot->setSpeed(0,angle);
 		robot->read();
@@ -61,12 +75,18 @@ void Driver::moveToNextWaypoint(double x, double y) {
 	double startedX = currX;
 	double startedY = currY;
 	cout << "(" << x << "," << y << ")" << endl;
-	while ( distance(currX, currY, startedX, startedY) <= 1.222){
-		robot->setSpeed(linearSpeed * slowSpeedRatio * 4, 0);
+	double temp =1;
+	//while (robot->getLaserProxy()->GetRange(333) > 0.45 && distance(currX, currY,startedX, startedY) * 0.025 < distance(startedX, startedY, x, y) * 0.025 /temp ){
+	while (distance(currX, currY,x ,y) > 0.05 && distance(currX, currY,x ,y) < 1){
+		robot->setSpeed(0.08 , 0);
 
 				robot->read();
 				currX = robot->getX();
 				currY = robot->getY();
+
+				cout << "curr location: (" << currX << "," << currY << ")" <<endl;
+				cout << "next location: (" << x << "," << y << ")" << endl;
+				//temp *= 1.03;
 	}
 	/**while (distance(currX, currY, x, y) *0.001  > slowSpeedRange) {
 		robot->setSpeed(linearSpeed, 0);
