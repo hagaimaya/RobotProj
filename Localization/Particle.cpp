@@ -38,6 +38,11 @@ double Particle::ProbByMesure(LaserProxy lp){
 double Particle::ProbByMove(double deltaX, double deltaY, double deltayaw){
 	double probability =0;
 
+	// if it isnt obstacle
+	if (this->map[this->_yPos][this->_xPos] != 1)
+	{
+
+	}
 	return probability;
 }
 void Particle::update(double deltaX, double deltaY, double deltayaw,LaserProxy lp){
