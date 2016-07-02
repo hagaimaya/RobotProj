@@ -8,6 +8,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include Localization/subdir.mk
 -include Driver/subdir.mk
 -include BuildGraphFromMap/subdir.mk
 -include subdir.mk

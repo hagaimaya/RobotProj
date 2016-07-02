@@ -34,44 +34,21 @@ int main() {
 	for (unsigned int i = 0; i<pathToLocation.size();i++){
 		cout << "Location: (" << pathToLocation[i]->get_col() << " , "<< height - pathToLocation[i]->get_row() << ")" << endl;
 		map->set_map_data(pathToLocation[i]->get_row()-1,pathToLocation[i]->get_col()-1,true);
-		//pathToLocation[i] = new Location(height - (pathToLocation[i]->get_row() - 1),pathToLocation[i]->get_col() - 1);
 		pathToLocation[i] = new Location(4.73  - (pathToLocation[i]->get_row() + 1) * 0.025,
 									-6.85 + (pathToLocation[i]->get_col() + 1) * 0.025);
 	}
 
-	/**for (unsigned int i = 1; i<pathToLocation.size() - 1;i++){
-		double temp1 = atan2(pathToLocation[i]->get_row() - pathToLocation[i - 1]->get_row(),pathToLocation[i]->get_col() - pathToLocation[i - 1]->get_col());
-		double temp2 = atan2(pathToLocation[i + 1]->get_row() - pathToLocation[i]->get_row(),pathToLocation[i + 1]->get_col() - pathToLocation[i]->get_col());
-		if (temp1 == temp2){
-			pathToLocation.erase(pathToLocation.begin() + i);
-			i--;
-		}
 
-	}
-**/
 	map->printMap();
 	Robot robot("localhost", 6665);
 	robot.setOdometry(pathToLocation[0]->get_col()  , pathToLocation[0]->get_row() , 20 * 3.14 / 180 );
-	//robot.setOdometry(2.175,-2.875, 20);
+
 
 
 	robot.read();
 	Driver driver(&robot);
 
-	/**vector<Location *> temp2;
-		double dX = 362-2.175;
-	     double dY = height - 305 + 2.875;
-		for (unsigned int i = 0; i < pathToLocation.size();i++){
-			temp2.push_back(new Location(pathToLocation[i]->get_row() - dY ,pathToLocation[i]->get_col() -dX));
-		}
-		pathToLocation = temp2;**/
-	/**vector<Location *> temp;
-	temp.push_back(pathToLocation[0]);
-	for (unsigned int i = 1; i < pathToLocation.size();i++){
-		temp.push_back(new Location((pathToLocation[i]->get_row() - pathToLocation[i-1]->get_row()) * 0.025 + pathToLocation[i - 1]->get_row(),(pathToLocation[i]->get_col() - pathToLocation[i-1]->get_col()) * 0.025 + pathToLocation[i - 1]->get_col()));
-	}
-	pathToLocation = temp;
-**/
+
 
 	for (unsigned int i = 1; i<pathToLocation.size();i++){
 		cout << "index: " << i << " size: " << pathToLocation.size() <<" Location: (" << pathToLocation[i]->get_row() << " , "<< pathToLocation[i]->get_col() << ")" << endl;
