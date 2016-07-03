@@ -7,9 +7,9 @@
 
 #include "LocalizationManager.h"
 
-LocalizationManager::LocalizationManager() {
+LocalizationManager::LocalizationManager(Particle* particle) {
 	// TODO Auto-generated constructor stub
-
+	this->_particles.push_back(particle);
 }
 
 LocalizationManager::~LocalizationManager() {
@@ -31,6 +31,9 @@ void LocalizationManager::resampleParticles(){
 		}
 	}
 
+	if (this->_particles.size() == 0){
+		throw "eerrer";
+	}
 	// from the left particles we will create another particles
 	for (int particleIndex =0; particleIndex < this->_particles.size(); ++particleIndex){
 		for (int i=0; i< 20; ++i){
@@ -39,4 +42,17 @@ void LocalizationManager::resampleParticles(){
 													this->_particles[particleIndex]->getyaw() + static_cast<double>(rand() % 360 - rand() % 360) * 3.14/180));
 		}
 	}
+}
+
+Particle *LocalizationManager::getBestParticle(){
+	double maxBelief =  this->_particles[0]->getBelief();
+	Particle bestParticle = *this->_particles[0];
+	for (int particleIndex =0; particleIndex < this->_particles.size(); ++particleIndex){
+			if (this->_particles[particleIndex]->getBelief() > maxBelief){
+				maxBelief = this->_particles[particleIndex]->getBelief();
+				bestParticle = *this->_particles[particleIndex];
+			}
+	}
+
+	return &bestParticle;
 }
