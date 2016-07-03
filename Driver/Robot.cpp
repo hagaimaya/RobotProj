@@ -6,6 +6,7 @@
  */
 
 #include "Robot.h"
+#include <iostream>
 
 Robot::Robot(string ip, int port) {
 	pc = new PlayerClient(ip, port);
@@ -28,6 +29,7 @@ void Robot::read() {
 	this->xPos = getX();
 	this->yPos = getY();
 	this->yawPos = getYaw();
+
 }
 
 double Robot::getX() {
@@ -63,7 +65,7 @@ LaserProxy* Robot::getLaserProxy(){
 }
 
 float Robot::getLaserRead(int index) {
-	return ((*this->lp)[index]);
+	return ((*this->lp).GetRange(index));
 }
 
 Robot::~Robot() {

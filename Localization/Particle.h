@@ -18,27 +18,30 @@ private:
 	double _yPos;
 	double _yaw;
 	double _belief;
-	vector<vector<int> > map;
+
 
 	/**
 	 * Function Name: probByMove
 	 * Summary      : Calculate the probability of this point as the current location
 	 * return: number between 0 and 1
 	 */
-	double ProbByMove(double deltaX, double deltaY,double deltayaw);
+	double ProbByMove(double deltaX, double deltaY,double deltayaw,Map& map);
 
 	/**
 	 * Function Name: ProbByMeasure
 	 * Summary      : Calculate the probability of this point as the current location
 	 * return       : number between  0 and 1
 	 */
-	double ProbByMesure(LaserProxy lp);
+	double ProbByMesure(LaserProxy* lp, Map& map);
 
 public:
 	Particle();
-	Particle(double xPos, double yPos, double yaw, Map map);
+	Particle(double xPos, double yPos, double yaw);
 	double getBelief();
-	void update(double deltaX, double deltaY, double deltayaw, LaserProxy lp);
+	double getYPos();
+	double getXPos();
+	double getyaw();
+	void update(double deltaX, double deltaY, double deltayaw, LaserProxy* lp, Map& map);
 	void printPosition();
 	virtual ~Particle();
 };

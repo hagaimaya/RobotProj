@@ -18,7 +18,7 @@ private:
 public:
 	LocalizationManager();
 
-	void update(double deltaX,double deltaY, double yaw);
+	void update(double deltaX,double deltaY, double yaw,LaserProxy* lp,Map& map);
 	void resampleParticles();
 	Particle *getBestParticle();
 	virtual ~LocalizationManager();

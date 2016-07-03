@@ -50,13 +50,12 @@ int main() {
 
 
 
+
 	for (unsigned int i = 1; i<pathToLocation.size();i++){
 		cout << "index: " << i << " size: " << pathToLocation.size() <<" Location: (" << pathToLocation[i]->get_row() << " , "<< pathToLocation[i]->get_col() << ")" << endl;
 
 		driver.moveToNextWaypoint(pathToLocation[i]->get_col(), pathToLocation[i]->get_row());
-		//if (pathToLocation[i - 1]->get_col() != robot.getX() || pathToLocation[i - 1]->get_row() != robot.getY()){
-			//robot.setOdometry(pathToLocation[i]->get_col()  , pathToLocation[i]->get_row() , robot.getYaw());
-		//}
+
 
 	}
 
