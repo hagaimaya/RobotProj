@@ -11,6 +11,7 @@
 #include <math.h>
 #include "Localization/LocalizationManager.h"
 using namespace std;
+#include <unistd.h>
 
 int main() {
 	Map* map = new Map(2.5,30);
@@ -49,26 +50,34 @@ int main() {
 	robot.read();
 	Driver driver(&robot);
 
-	Particle* first_particle = new Particle(pathToLocation[0]->get_col(),pathToLocation[0]->get_row(), 20 * 3.14 / 180 );
-	LocalizationManager* lm = new LocalizationManager(first_particle);
-
+	//Particle* first_particle = new Particle(pathToLocation[0]->get_col(),pathToLocation[0]->get_row(), 20 * 3.14 / 180 );
+	LocalizationManager* lm = new LocalizationManager();
+	Particle* particle;
 	for (unsigned int i = 1; i<pathToLocation.size();i++){
+		//while (abs(robot.getX() - pathToLocation[i]->get_col()) > 0.1 &&
+		//		abs(robot.getY() - pathToLocation[i]->get_row()) > 0.1)
+		//{
+			driver.moveToNextWaypoint(pathToLocation[i]->get_col(), pathToLocation[i]->get_row());
 
-		driver.moveToNextWaypoint(pathToLocation[i]->get_col(), pathToLocation[i]->get_row());
-
-		if ((rand() % 6) > 4){
-			robot.CalculateDelats();
-			lm->update(robot.getDeltaX(),robot.getDeltaY(),robot.getDeltaYaw(),robot.getLaserProxy(),*map);
-			lm->resampleParticles();
-			Particle* particle = lm->getBestParticle();
-			cout << "i am at: " << endl
-				 << "X: " << robot.getX() << " Y: " << robot.getY() << " Yaw: " << robot.getYaw() << endl
-				 << "I think: " << endl
-				 << "X: " << particle->getXPos() << " Y: " << particle->getYPos() << " Yaw: " << particle->getyaw() << endl;
+			if ((rand() % 6) > 4){
+				robot.CalculateDelats();
+				lm->update(robot.getDeltaX(),robot.getDeltaY(),robot.getDeltaYaw(),robot.getLaserProxy(),*map);
+				lm->resampleParticles();
+				 particle = lm->getBestParticle();
+				cout << "i am at: " << endl
+					 << "X: " << robot.getX() << " Y: " << robot.getY() << " Yaw: " << robot.getYaw() << endl
+					 << "I think: " << endl
+					 << "X: " << particle->getXPos() << " Y: " << particle->getYPos() << " Yaw: " << particle->getyaw() << endl;
 
 
-		}
+				//robot.setOdometry(particle->getXPos(),particle->getYPos(),particle->getyaw());
+				robot.read();
+
+
+			}
+		//}
 	}
+
 
 
 

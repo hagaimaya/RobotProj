@@ -16,7 +16,7 @@ class LocalizationManager {
 private:
 	vector<Particle *> _particles;
 public:
-	LocalizationManager(Particle* particle);
+	LocalizationManager();
 
 	void update(double deltaX,double deltaY, double yaw,LaserProxy* lp,Map& map);
 	void resampleParticles();

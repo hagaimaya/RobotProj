@@ -58,10 +58,12 @@ void Robot::CalculateDelats(){
 	this->xPos = getX();
 	this->yPos = getY();
 	this->yawPos = getYaw();
+	pc->Read();
+
 }
 void Robot::setOdometry(double x, double y, double yaw) {
 	pp->SetOdometry(x, y, yaw);
-	pc->Read();
+    pc->Read();
 	this->xPos =x;
 	this->yPos = y;
 	this->yawPos = yaw;

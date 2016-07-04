@@ -8,7 +8,7 @@
 #include "Particle.h"
 #include <math.h>
 // Normalize every belief that over 30% probability
-#define NORMALIZE_FACTOR 1.1
+#define NORMALIZE_FACTOR 2
 
 Particle::Particle() {
 	// TODO Auto-generated constructor stub
@@ -31,17 +31,17 @@ double Particle::ProbByMesure(LaserProxy* lp,Map& map){
 	for (int i=0; i< lp->GetCount(); i+=30){
 		// angle in radians
 		angle = (i -333) * 3.14 / 180;
-		//pathToLocation[i] = new Location(4.73  - (pathToLocation[i]->get_row() + 1) * 0.025,
-		//									-6.85 + (pathToLocation[i]->get_col() + 1) * 0.025);
+
+		angle =0;
 		int x_map_pos = (this->_xPos + 6.85) / 0.025;
 		int y_map_pos = (this->_yPos - 4.73) / 0.025 * -1;
 		is_Passed_Obstacle = false;
 		vector<vector<bool> > mapgrid = map.Getmap();
 		for (int j=0; j<lp->GetRange(i) * 40;j++){
-			int colReadPos = x_map_pos + (cos(angle + this->_yaw * 1.0) * j);
-			int rowReadPos = y_map_pos -(sin(angle + this->_yaw *1.0) * j);
-			if ( 0 <= rowReadPos && rowReadPos <mapgrid.size() && //map.Getmap().size() &&
-				 0 <= colReadPos &&	colReadPos < mapgrid[0].size() &&//map.Getmap()[0].size() &&
+			int colReadPos = x_map_pos + ((double)(cos(angle + this->_yaw * 1.0) * j));
+			int rowReadPos = y_map_pos -((double)(sin(angle + this->_yaw *1.0) * j));
+			if ( 0 <= rowReadPos && rowReadPos <mapgrid.size() &&
+				 0 <= colReadPos &&	colReadPos < mapgrid[0].size() &&
 				 mapgrid[rowReadPos][colReadPos] != 1 &&
 				 !is_Passed_Obstacle){
 				countHits++;
@@ -70,7 +70,7 @@ double Particle::ProbByMove(double deltaX, double deltaY, double deltayaw, Map& 
 		// if it isnt obstacle
 		if (map.Getmap()[y_map_pos][x_map_pos] != 1)
 		{
-			probability = 1;
+			probability = 0.9;
 		}
 	}
 	return probability;
