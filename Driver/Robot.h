@@ -33,6 +33,7 @@ public:
 	double getDeltaX();
 	double getDeltaY();
 	double getDeltaYaw();
+	void CalculateDelats();
 	void setOdometry(double x, double y, double yaw);
 	void setSpeed(double linearSpeed, double angularSpeed);
 	double getYaw();

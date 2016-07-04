@@ -17,7 +17,9 @@ main.d: ../main.cpp ../BuildGraphFromMap/Astar.h \
  /usr/local/include/player-2.0/libplayerc++/playerclient.h \
  /usr/local/include/player-2.0/libplayerc++/playererror.h \
  /usr/local/include/player-2.0/libplayerc++/clientproxy.h \
- ../Driver/Robot.h
+ ../Driver/Robot.h ../Localization/LocalizationManager.h \
+ ../Localization/Particle.h ../Localization/../BuildGraphFromMap/Map.h \
+ ../Localization/../Driver/Robot.h
 
 ../BuildGraphFromMap/Astar.h:
 
@@ -68,3 +70,11 @@ main.d: ../main.cpp ../BuildGraphFromMap/Astar.h \
 /usr/local/include/player-2.0/libplayerc++/clientproxy.h:
 
 ../Driver/Robot.h:
+
+../Localization/LocalizationManager.h:
+
+../Localization/Particle.h:
+
+../Localization/../BuildGraphFromMap/Map.h:
+
+../Localization/../Driver/Robot.h:

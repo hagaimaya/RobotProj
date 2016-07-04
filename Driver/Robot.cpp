@@ -23,12 +23,8 @@ Robot::Robot(string ip, int port) {
 
 void Robot::read() {
 	pc->Read();
-	this->deltaX = getX() - this->xPos;
-	this->deltaY = getY() - this->yPos;
-	this->deltaY = getYaw() - this->yawPos;
-	this->xPos = getX();
-	this->yPos = getY();
-	this->yawPos = getYaw();
+
+
 
 }
 
@@ -55,9 +51,20 @@ double Robot::getDeltaYaw(){
 void Robot::setSpeed(double linearSpeed, double angularSpeed) {
 	pp->SetSpeed(linearSpeed, angularSpeed);
 }
-
+void Robot::CalculateDelats(){
+	this->deltaY = getY() - this->yPos;
+	this->deltaYaw = getYaw() - this->yawPos;
+	this->deltaX = getX() - this->xPos;
+	this->xPos = getX();
+	this->yPos = getY();
+	this->yawPos = getYaw();
+}
 void Robot::setOdometry(double x, double y, double yaw) {
 	pp->SetOdometry(x, y, yaw);
+	pc->Read();
+	this->xPos =x;
+	this->yPos = y;
+	this->yawPos = yaw;
 }
 
 LaserProxy* Robot::getLaserProxy(){

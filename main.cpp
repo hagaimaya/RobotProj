@@ -9,7 +9,7 @@
 #include "Driver/Robot.h"
 #include <vector>
 #include <math.h>
-
+#include "Localization/LocalizationManager.h"
 using namespace std;
 
 int main() {
@@ -32,8 +32,8 @@ int main() {
 
 
 	for (unsigned int i = 0; i<pathToLocation.size();i++){
-		cout << "Location: (" << pathToLocation[i]->get_col() << " , "<< height - pathToLocation[i]->get_row() << ")" << endl;
-		map->set_map_data(pathToLocation[i]->get_row()-1,pathToLocation[i]->get_col()-1,true);
+
+		//map->set_map_data(pathToLocation[i]->get_row()-1,pathToLocation[i]->get_col()-1,true);
 		pathToLocation[i] = new Location(4.73  - (pathToLocation[i]->get_row() + 1) * 0.025,
 									-6.85 + (pathToLocation[i]->get_col() + 1) * 0.025);
 	}
@@ -45,18 +45,29 @@ int main() {
 
 
 
+
 	robot.read();
 	Driver driver(&robot);
 
-
-
+	Particle* first_particle = new Particle(pathToLocation[0]->get_col(),pathToLocation[0]->get_row(), 20 * 3.14 / 180 );
+	LocalizationManager* lm = new LocalizationManager(first_particle);
 
 	for (unsigned int i = 1; i<pathToLocation.size();i++){
-		cout << "index: " << i << " size: " << pathToLocation.size() <<" Location: (" << pathToLocation[i]->get_row() << " , "<< pathToLocation[i]->get_col() << ")" << endl;
 
 		driver.moveToNextWaypoint(pathToLocation[i]->get_col(), pathToLocation[i]->get_row());
 
+		if ((rand() % 6) > 4){
+			robot.CalculateDelats();
+			lm->update(robot.getDeltaX(),robot.getDeltaY(),robot.getDeltaYaw(),robot.getLaserProxy(),*map);
+			lm->resampleParticles();
+			Particle* particle = lm->getBestParticle();
+			cout << "i am at: " << endl
+				 << "X: " << robot.getX() << " Y: " << robot.getY() << " Yaw: " << robot.getYaw() << endl
+				 << "I think: " << endl
+				 << "X: " << particle->getXPos() << " Y: " << particle->getYPos() << " Yaw: " << particle->getyaw() << endl;
 
+
+		}
 	}
 
 

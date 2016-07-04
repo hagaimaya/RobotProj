@@ -89,12 +89,13 @@ bool Map::checkIfCellIsOccupied(int i, int j) {
 }
 
 void Map::printMap() const {
-	for (unsigned int i = 0; i < height; i++) {
-			for (unsigned int j = 0; j < width; j++) {
-				cout << (map[i][j] ? "*" : " ");
-			}
-			cout << endl;
+	/**for (unsigned int i = 0; i < height; i++) {
+		for (unsigned int j = 0; j < width; j++) {
+			cout << (map[i][j] ? "*" : " ");
 		}
+		cout << endl;
+	}
+	**/
 
 		vector<unsigned char> newPixels;
 		newPixels.resize(pixels.size());

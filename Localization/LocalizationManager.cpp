@@ -6,7 +6,7 @@
  */
 
 #include "LocalizationManager.h"
-
+#define MAX_PARTICLES 1000
 LocalizationManager::LocalizationManager(Particle* particle) {
 	// TODO Auto-generated constructor stub
 	this->_particles.push_back(particle);
@@ -25,22 +25,34 @@ void LocalizationManager::update(double deltaX,double deltaY, double yaw,LaserPr
 void LocalizationManager::resampleParticles(){
 	// delete unneeded particles
 	for (int particleIndex =0; particleIndex < this->_particles.size(); ++particleIndex){
-		if (this->_particles[particleIndex]->getBelief() < 0.6){
+		if (this->_particles[particleIndex]->getBelief() < 0.2){
 			this->_particles.erase(this->_particles.begin() + particleIndex);
 			particleIndex--;
 		}
 	}
 
 	if (this->_particles.size() == 0){
+		cout << "0 particles"<<endl;
 		throw "eerrer";
 	}
+	int size = this->_particles.size();
 	// from the left particles we will create another particles
-	for (int particleIndex =0; particleIndex < this->_particles.size(); ++particleIndex){
-		for (int i=0; i< 20; ++i){
-			this->_particles.push_back(new Particle(this->_particles[particleIndex]->getXPos() + static_cast<double>(rand() % 100 / 10000 - rand() % 100 / 10000 ),
-													this->_particles[particleIndex]->getYPos() + static_cast<double>(rand() % 100 / 10000 - rand() % 100 / 10000 ),
-													this->_particles[particleIndex]->getyaw() + static_cast<double>(rand() % 360 - rand() % 360) * 3.14/180));
+	for (int particleIndex =0; particleIndex < size && this->_particles.size() <= MAX_PARTICLES; ++particleIndex){
+		if (this->_particles[particleIndex]->getBelief() > 0.8)
+		{
+			for (int i=0; i< 20; ++i){
+				this->_particles.push_back(new Particle(this->_particles[particleIndex]->getXPos() + static_cast<double>(rand() % 100 / 10000 - rand() % 100 / 10000 ),
+						this->_particles[particleIndex]->getYPos() + static_cast<double>(rand() % 100 / 10000 - rand() % 100 / 10000 ),
+						this->_particles[particleIndex]->getyaw() + static_cast<double>(rand() % 360 - rand() % 360) * 3.14/180));
+			}
 		}
+	}
+
+	cout << "particle num: " << this->_particles.size() << endl;
+	for (int particleIndex =0; particleIndex < this->_particles.size(); ++particleIndex){
+		cout << "particle[" << particleIndex << "] (" << _particles[particleIndex]->getXPos() << ","
+				                                      << _particles[particleIndex]->getYPos() << ","
+				                                      << _particles[particleIndex]->getyaw() << ") belief: " << _particles[particleIndex]->getBelief() << endl;
 	}
 }
 
