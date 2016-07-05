@@ -30,13 +30,14 @@ void LocalizationManager::update(double deltaX,double deltaY, double yaw,LaserPr
 	}
 }
 
-void LocalizationManager::resampleParticles(){
+void LocalizationManager::resampleParticles(Robot& robot){
 	// delete unneeded particles
 	for (int particleIndex =0; particleIndex < this->_particles.size(); ++particleIndex){
 		if (this->_particles[particleIndex]->getBelief() < BAD_PARTICLE){
 			this->_particles.erase(this->_particles.begin() + particleIndex);
 			particleIndex--;
 		}
+
 	}
 
 	int size = this->_particles.size();
@@ -52,6 +53,7 @@ void LocalizationManager::resampleParticles(){
 		}
 	}
 	if (this->_particles.size() == 0){
+		throw ;
 		for (int index = 0; index < MAX_PARTICLES / 5; index++){
 			double x= -6.85 + (360 - static_cast<double>(rand() % 200) )* 0.025;
 			double y = 4.73  - ((305 - static_cast<double>(rand() % 160) )* 0.025 );
@@ -60,12 +62,7 @@ void LocalizationManager::resampleParticles(){
 		}
 
 	}
-	cout << "particle num: " << this->_particles.size() << endl;
-	for (int particleIndex =0; particleIndex < this->_particles.size(); ++particleIndex){
-		cout << "particle[" << particleIndex << "] (" << _particles[particleIndex]->getXPos() << ","
-				                                      << _particles[particleIndex]->getYPos() << ","
-				                                      << _particles[particleIndex]->getyaw() << ") belief: " << _particles[particleIndex]->getBelief() << endl;
-	}
+
 }
 
 Particle *LocalizationManager::getBestParticle(){

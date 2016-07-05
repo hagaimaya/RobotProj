@@ -10,7 +10,7 @@
 #include <math.h>
 #include <iostream>
 #include <stdlib.h>
-
+#include <unistd.h>
 #define PI 3.14159265
 
 using namespace std;
@@ -41,7 +41,8 @@ void Driver::moveToNextWaypoint(double x, double y) {
 	double angle = 0.11;
 
 	//result -=  20 * 3.14 / 180;
-	while (abs(result  - currYaw )> 0.05 && distance(currX, currY,x ,y) > 0.05){
+	while (abs(result  - currYaw ) > 0.01 ){//&& distance(currX, currY,x ,y) > 0.12){
+		cout <<"result: " << result << " (" << robot->getX() << "," << robot->getY() << "," << robot->getYaw() << ")"<< endl;
 		if (((result < 0 &&  currYaw < 0 && result > currYaw) ||
 			(result < -PI /2 && currYaw > PI / 2) ||
 			(result > 0 && currYaw > 0 && result > currYaw) )&&
@@ -58,6 +59,7 @@ void Driver::moveToNextWaypoint(double x, double y) {
 		robot->setSpeed(0,angle);
 		robot->read();
 		currYaw = robot->getYaw();
+
 	}
 
 	robot->setSpeed(0,0);
@@ -67,11 +69,12 @@ void Driver::moveToNextWaypoint(double x, double y) {
 
 	double temp =1;
 	//while (robot->getLaserProxy()->GetRange(333) > 0.45 && distance(currX, currY,startedX, startedY) * 0.025 < distance(startedX, startedY, x, y) * 0.025 /temp ){
-	while (distance(currX, currY,x ,y) > 0.05 && distance(currX, currY,x ,y) < 1){
+	while (distance(currX, currY,x ,y) > 0.1 && distance(currX, currY,x ,y) < 2){
 		robot->setSpeed(0.08 , 0);
 		robot->read();
 		currX = robot->getX();
 		currY = robot->getY();
+
 	}
 
 	robot->setSpeed(0, 0);

@@ -19,7 +19,7 @@ public:
 	LocalizationManager();
 
 	void update(double deltaX,double deltaY, double yaw,LaserProxy* lp,Map& map);
-	void resampleParticles();
+	void resampleParticles(Robot& robot);
 	Particle *getBestParticle();
 	virtual ~LocalizationManager();
 };

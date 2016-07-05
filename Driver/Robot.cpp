@@ -11,7 +11,7 @@
 Robot::Robot(string ip, int port) {
 	pc = new PlayerClient(ip, port);
 	pp = new Position2dProxy(pc);
-
+	pp->SetMotorEnable(true);
 	lp = new LaserProxy(pc);
 	xPos=0;
 	yPos=0;
@@ -37,7 +37,12 @@ double Robot::getY() {
 }
 
 double Robot::getYaw() {
-	return pp->GetYaw();
+	double yawPos = pp->GetYaw();
+	if (yawPos > 3.14){
+		yawPos = yawPos - 3.14 ;
+	}
+
+	return yawPos;
 }
 double Robot::getDeltaX(){
 	return this->deltaX;
@@ -58,12 +63,12 @@ void Robot::CalculateDelats(){
 	this->xPos = getX();
 	this->yPos = getY();
 	this->yawPos = getYaw();
-	pc->Read();
+
 
 }
 void Robot::setOdometry(double x, double y, double yaw) {
 	pp->SetOdometry(x, y, yaw);
-    pc->Read();
+
 	this->xPos =x;
 	this->yPos = y;
 	this->yawPos = yaw;

@@ -39,18 +39,31 @@ int main() {
 									-6.85 + (pathToLocation[i]->get_col() + 1) * 0.025);
 	}
 
-
+	//10.10.245.63
 	map->printMap();
-	Robot robot("localhost", 6665);
-	robot.setOdometry(pathToLocation[0]->get_col()  , pathToLocation[0]->get_row() , 20 * 3.14 / 180 );
+	Robot robot("10.10.245.63", 6665);
+	//Robot robot("localhost", 6665);
 
+	for (int i=0; i< 20; i++){
+		robot.setOdometry(pathToLocation[0]->get_col()  , pathToLocation[0]->get_row() , 20 * 3.14 / 180 );
+		robot.read();
+	}
+	for (int i=0; i< 20; i++){
+		robot.read();
+	}
+	/**while (robot.getX() != pathToLocation[0]->get_col() || robot.getY() != pathToLocation[0]->get_row() || robot.getYaw() != (20 * 3.14 / 180) ){
+		robot.read();
+		robot.setOdometry(pathToLocation[0]->get_col()  , pathToLocation[0]->get_row() , 20 * 3.14 / 180 );
+		cout << "bla" <<endl;
+	}**/
+	cout << "lets start"<<endl;
 
-
+	robot.read();
 
 	robot.read();
 	Driver driver(&robot);
 
-	//Particle* first_particle = new Particle(pathToLocation[0]->get_col(),pathToLocation[0]->get_row(), 20 * 3.14 / 180 );
+	Particle* first_particle = new Particle(pathToLocation[0]->get_col(),pathToLocation[0]->get_row(), 20 * 3.14 / 180 );
 	LocalizationManager* lm = new LocalizationManager();
 	Particle* particle;
 	for (unsigned int i = 1; i<pathToLocation.size();i++){
@@ -58,23 +71,25 @@ int main() {
 		//		abs(robot.getY() - pathToLocation[i]->get_row()) > 0.1)
 		//{
 			driver.moveToNextWaypoint(pathToLocation[i]->get_col(), pathToLocation[i]->get_row());
-
-			if ((rand() % 6) > 4){
+			cout << "(" << robot.getX() << "," << robot.getY() << "," << robot.getYaw() << ")"<< endl;
+		/**if ((rand() % 12) >5){
 				robot.CalculateDelats();
 				lm->update(robot.getDeltaX(),robot.getDeltaY(),robot.getDeltaYaw(),robot.getLaserProxy(),*map);
-				lm->resampleParticles();
+				lm->resampleParticles(robot);
 				 particle = lm->getBestParticle();
+
 				cout << "i am at: " << endl
 					 << "X: " << robot.getX() << " Y: " << robot.getY() << " Yaw: " << robot.getYaw() << endl
 					 << "I think: " << endl
 					 << "X: " << particle->getXPos() << " Y: " << particle->getYPos() << " Yaw: " << particle->getyaw() << endl;
 
+				for (int i=0; i< 20; i++){
+					robot.setOdometry(particle->getXPos(),particle->getYPos(),particle->getyaw());
+					robot.read();
+				}
 
-				//robot.setOdometry(particle->getXPos(),particle->getYPos(),particle->getyaw());
-				robot.read();
 
-
-			}
+			//}**/
 		//}
 	}
 

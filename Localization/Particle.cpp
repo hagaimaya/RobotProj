@@ -30,9 +30,10 @@ double Particle::ProbByMesure(LaserProxy* lp,Map& map){
 	bool is_Passed_Obstacle = false;
 	for (int i=0; i< lp->GetCount(); i+=30){
 		// angle in radians
-		angle = (i -333) * 3.14 / 180;
+		//angle = (i -333) * 3.14 / 180;
 
 		angle =0;
+		angle = (i * 0.36 -120) / 180 *3.14;
 		int x_map_pos = (this->_xPos + 6.85) / 0.025;
 		int y_map_pos = (this->_yPos - 4.73) / 0.025 * -1;
 		is_Passed_Obstacle = false;
