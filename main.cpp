@@ -41,8 +41,8 @@ int main() {
 
 	//10.10.245.63
 	map->printMap();
-	Robot robot("10.10.245.63", 6665);
-	//Robot robot("localhost", 6665);
+	//Robot robot("10.10.245.63", 6665);
+	Robot robot("localhost", 6665);
 
 	for (int i=0; i< 20; i++){
 		robot.setOdometry(pathToLocation[0]->get_col()  , pathToLocation[0]->get_row() , 20 * 3.14 / 180 );
@@ -83,13 +83,10 @@ int main() {
 					 << "I think: " << endl
 					 << "X: " << particle->getXPos() << " Y: " << particle->getYPos() << " Yaw: " << particle->getyaw() << endl;
 
-				for (int i=0; i< 20; i++){
-					robot.setOdometry(particle->getXPos(),particle->getYPos(),particle->getyaw());
-					robot.read();
-				}
 
 
-			//}**/
+
+			}**/
 		//}
 	}
 

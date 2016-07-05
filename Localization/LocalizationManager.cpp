@@ -6,7 +6,7 @@
  */
 
 #include "LocalizationManager.h"
-#define MAX_PARTICLES 1000
+#define MAX_PARTICLES 50
 #define BAD_PARTICLE 0.2
 #define GOOD_PARTICLE 0.7
 LocalizationManager::LocalizationManager() {
